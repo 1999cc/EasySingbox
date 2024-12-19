@@ -172,7 +172,7 @@ table inet sing-box {
         # 确保 DHCP 数据包不被拦截 UDP 67/68
         udp dport { 67, 68 } accept comment "Allow DHCP traffic"
         # 确保 DNS 和 TProxy 工作
-        meta l4proto { tcp, udp } th dport 53 tproxy to :$TPROXY_PORT accept comment "DNS透明代理"
+        meta l4proto { tcp, udp } th dport 5335 tproxy to :$TPROXY_PORT accept comment "DNS透明代理"
         fib daddr type local meta l4proto { tcp, udp } th dport $TPROXY_PORT reject
         fib daddr type local accept
         # 放行局域网流量
@@ -189,7 +189,7 @@ table inet sing-box {
         # 放行标记过的流量
         meta mark 0x1 accept
         # 确保 DNS 查询正常
-        meta l4proto { tcp, udp } th dport 53 meta mark set 0x1 accept
+        meta l4proto { tcp, udp } th dport 5335 meta mark set 0x1 accept
         # 放行本地流量
         ip daddr { 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16 } accept
         ip6 daddr { ::1, fc00::/7, fe80::/10 } accept
